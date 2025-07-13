@@ -8,6 +8,7 @@ use App\Classes\Api\v1\Dto\UserDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Auth\LoginRequest;
 use App\Http\Requests\Api\v1\Auth\RegisterRequest;
+use App\Http\Resources\Api\v1\Users\UserResource;
 use App\Models\Api\v1\User;
 use App\Services\Api\v1\AuthService;
 use Exception;
@@ -65,13 +66,11 @@ class AuthController extends Controller
 
     public function user(Request $request, Response $response)
     {
-        $user = User::find('97b7f15a-e9ee-4bd6-8f22-1bccdcf1ddf8');
-
         return ApiResponse::response(
             true,
             null,
             [
-                'user' => $user
+                'user' => new UserResource($request->user())
             ]
         );
     }

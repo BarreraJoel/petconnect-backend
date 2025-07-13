@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('city');
             $table->string('locality');
-            $table->string('image_url')->nullable();
+            $table->json('images_url')->nullable();
             $table->string('description');
             $table->boolean('is_approved')->default(false);
             $table->foreignUuid('user_id');
