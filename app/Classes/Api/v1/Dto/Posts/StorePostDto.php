@@ -3,20 +3,22 @@
 namespace App\Classes\Api\v1\Dto\Posts;
 
 use App\Enums\Api\v1\PostTypeEnum;
-use Illuminate\Http\UploadedFile;
 use Spatie\LaravelData\Data;
 
+/**
+ * Dto para manejar datos de un nuevo post
+ */
 class StorePostDto extends Data
 {
     /**
      * 
-     * @param string $title
-     * @param string $city
-     * @param string $locality
-     * @param string $description
-     * @param string $user_id
-     * @param \App\Enums\Api\v1\PostTypeEnum $type
-     * @param mixed $images
+     * @param string $title Título del post
+     * @param string $city Ciudad donde se origina el post
+     * @param string $locality Localidad donde se origina el post
+     * @param string $description Breve descripción del post
+     * @param string $user_id Id del usuario propietario del post
+     * @param PostTypeEnum $type Tipo de post
+     * @param array $images Array de imagenes 
      */
     public function __construct(
         public string $title,

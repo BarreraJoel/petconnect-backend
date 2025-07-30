@@ -13,24 +13,24 @@ use App\Classes\Api\v1\Dto\Posts\UpdatePostDto;
 use App\Http\Resources\Api\v1\Posts\PostResource;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Controlador para gestionar posts de usuarios
+ */
 class PostController extends Controller
 {
     /**
-     * 
+     * Servicio encargado de manejar el crud de post
      * @var PostService
      */
     private PostService $postService;
 
-    /**
-     * 
-     */
     public function __construct()
     {
         $this->postService = new PostService();
     }
 
     /**
-     * 
+     * Obtiene y retorna todos los posts
      * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function index()
@@ -48,8 +48,8 @@ class PostController extends Controller
     }
 
     /**
-     * 
-     * @param \App\Http\Requests\Api\v1\Posts\StorePostRequest $request
+     * Almacena un nuevo registro de post
+     * @param \App\Http\Requests\Api\v1\Posts\StorePostRequest $request Request validado para almacenar un post
      * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function store(StorePostRequest $request)
@@ -69,8 +69,8 @@ class PostController extends Controller
     }
 
     /**
-     * 
-     * @param \App\Models\Api\v1\Post $post
+     * Obtiene un post según su uuid
+     * @param \App\Models\Api\v1\Post $post Post obtenido según uuid
      * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function show(Post $post)
@@ -85,9 +85,9 @@ class PostController extends Controller
     }
 
     /**
-     * 
-     * @param \App\Http\Requests\Api\v1\Posts\UpdatePostRequest $request
-     * @param \App\Models\Api\v1\Post $post
+     * Actualiza un post
+     * @param \App\Http\Requests\Api\v1\Posts\UpdatePostRequest $request Request validado para actualizar el post
+     * @param \App\Models\Api\v1\Post $post Post a actualizar
      * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function update(UpdatePostRequest $request, Post $post)
@@ -108,8 +108,8 @@ class PostController extends Controller
     }
 
     /**
-     * 
-     * @param \App\Models\Api\v1\Post $post
+     * Elimina un post según uuid
+     * @param \App\Models\Api\v1\Post $post Post a eliminar
      * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function destroy(Post $post)

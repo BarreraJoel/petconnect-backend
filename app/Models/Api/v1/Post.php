@@ -5,6 +5,9 @@ namespace App\Models\Api\v1;
 use App\Enums\Api\v1\PostTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Clase contenedora de los atributos de un post
+ */
 class Post extends Model
 {
     protected $primaryKey = 'uuid';
@@ -26,11 +29,6 @@ class Post extends Model
     ];
 
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [

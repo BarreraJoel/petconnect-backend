@@ -5,6 +5,14 @@ namespace App\Http\Resources\Api\v1\Users;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property string $uuid Identificador único del User
+ * @property string $first_name Nombre del User
+ * @property string $last_name Apellido del User
+ * @property string $email Email del User
+ * @property string $image_url Imagen de perfil del User
+ * @property string $type Tipo del User
+ */
 class UserResource extends JsonResource
 {
     /**

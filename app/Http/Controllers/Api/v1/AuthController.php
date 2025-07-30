@@ -9,16 +9,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Auth\LoginRequest;
 use App\Http\Requests\Api\v1\Auth\RegisterRequest;
 use App\Http\Resources\Api\v1\Users\UserResource;
-use App\Models\Api\v1\User;
 use App\Services\Api\v1\AuthService;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
+/**
+ * Controlador para gestionar la autenticación de usuarios
+ */
 class AuthController extends Controller
 {
+    /**
+     * 
+     * @var AuthService
+     */
     private AuthService $authService;
 
     public function __construct()
@@ -26,7 +31,13 @@ class AuthController extends Controller
         $this->authService = new AuthService();
     }
 
-    public function login(LoginRequest $loginRequest, Response $response)
+    /**
+     * Loguea un usuario con email y password
+     * @param \App\Http\Requests\Api\v1\Auth\LoginRequest $loginRequest Request validado para iniciar sesión
+     * @throws \Illuminate\Auth\AuthenticationException Si las credenciales ingresadas no son válidas
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function login(LoginRequest $loginRequest)
     {
         $userAuthDto = UserAuthDto::from($loginRequest->validated());
 
@@ -45,7 +56,13 @@ class AuthController extends Controller
         );
     }
 
-    public function register(RegisterRequest $registerRequest, Response $response)
+    /**
+     * Registra un usuario
+     * @param \App\Http\Requests\Api\v1\Auth\RegisterRequest $registerRequest Request validado para registrar un usuario
+     * @throws \Exception
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function register(RegisterRequest $registerRequest)
     {
         $userDto = UserDto::from($registerRequest->except('image'));
 
@@ -64,7 +81,12 @@ class AuthController extends Controller
         );
     }
 
-    public function user(Request $request, Response $response)
+    /**
+     * Encuentra al usuario logueado actualmente
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function user(Request $request)
     {
         return ApiResponse::response(
             true,
@@ -75,7 +97,12 @@ class AuthController extends Controller
         );
     }
 
-    public function logout(Request $request, Response $response)
+    /**
+     * Cierra la sesión de un usuario logueado
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
     {
         $this->authService->logout();
 

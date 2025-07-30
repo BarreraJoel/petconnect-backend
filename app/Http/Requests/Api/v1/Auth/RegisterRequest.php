@@ -6,6 +6,14 @@ use App\Enums\Api\v1\UserTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property string $email Email del usuario
+ * @property string $password Contraseña del usuario
+ * @property string $first_name Nombre del usuario
+ * @property string $last_name Nombre del usuario
+ * @property string $type Tipo de usuario
+ * @property string $image Imagen de perfil del usuario
+ */
 class RegisterRequest extends FormRequest
 {
     /**

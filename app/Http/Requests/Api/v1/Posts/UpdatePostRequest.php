@@ -6,6 +6,16 @@ use App\Enums\Api\v1\PostTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property string $_method Método para interpretar la request
+ * @property string $title Título del post
+ * @property string $city Ciudad donde se origina el post
+ * @property string $locality Localidad donde se origina el post
+ * @property string $description Breve descripción del post
+ * @property PostTypeEnum $type Tipo de post
+ * @property array $images Array de imagenes 
+ * @property string $images.* Cada imagen del array de imagenes
+ */
 class UpdatePostRequest extends FormRequest
 {
     /**
