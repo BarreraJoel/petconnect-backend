@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Classes\Api\v1\Dto;
+namespace App\Classes\Api\v1\Dto\User;
 
 use Spatie\LaravelData\Data;
 
 /**
  * Dto para manejar el inicio de sesión de un User
  */
-class UserAuthDto extends Data
+class LoginUserDto extends Data
 {
     /**
      * 

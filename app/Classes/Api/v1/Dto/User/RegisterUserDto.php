@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Classes\Api\v1\Dto;
+namespace App\Classes\Api\v1\Dto\User;
 
 use App\Enums\Api\v1\UserTypeEnum;
+use Illuminate\Http\UploadedFile;
 use Spatie\LaravelData\Data;
 
 /**
  * Dto para manejar el registro de un User
  */
-class UserDto extends Data
+class RegisterUserDto extends Data
 {
     /**
      * 
@@ -24,5 +25,6 @@ class UserDto extends Data
         public string $first_name,
         public string $last_name,
         public UserTypeEnum $type,
+        public UploadedFile $image,
     ) {}
 }

@@ -2,9 +2,10 @@
 
 namespace App\Services\Api\v1;
 
-use App\Classes\Api\v1\Dto\UserAuthDto;
-use App\Classes\Api\v1\Dto\UserDto;
+use App\Classes\Api\v1\Dto\User\LoginUserDto;
+use App\Classes\Api\v1\Dto\User\RegisterUserDto;
 use App\Models\Api\v1\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -18,10 +19,10 @@ class AuthService
 
     /**
      * Logueo de un usuario
-     * @param \App\Classes\Api\v1\Dto\UserAuthDto $userAuthDto Contiene los datos para iniciar sesión
+     * @param \App\Classes\Api\v1\Dto\User\LoginUserDto $userAuthDto Contiene los datos para iniciar sesión
      * @return \Illuminate\Foundation\Auth\User|null
      */
-    public function login(UserAuthDto $userAuthDto)
+    public function login(LoginUserDto $userAuthDto)
     {
         if (!Auth::attempt($userAuthDto->toArray())) {
             return null;
@@ -31,22 +32,36 @@ class AuthService
 
     /**
      * Registro de un usuario
-     * @param \App\Classes\Api\v1\Dto\UserDto $userDto Contiene los datos de un nuevo usuario
+     * @param \App\Classes\Api\v1\Dto\User\RegisterUserDto $userDto Contiene los datos de un nuevo usuario
      * @return User
      */
-    public function register(UserDto $userDto)
+    public function register(RegisterUserDto $dto): User
     {
-        $user = $this->createUser($userDto);
+        $user = $this->createUser($dto);
+        if ($dto->image) {
+            $imageUrl = $this->uploadImage($dto->image, $user->uuid, "/users/images/$user->uuid");
+            $user->image_url = $imageUrl;
+        }
+
         $user->save();
         return $user;
     }
 
+    private function uploadImage(UploadedFile $image, string $uuid, string $folder)
+    {
+        $fileService = new FileService();
+        $filename = $fileService->generateFileName($uuid);
+        $path = $fileService->upload($image, $folder, $filename);
+
+        return $path;
+    }
+
     /**
      * Crea un User
-     * @param \App\Classes\Api\v1\Dto\UserDto $userDto Contiene los datos de un nuevo usuario
+     * @param \App\Classes\Api\v1\Dto\User\RegisterUserDto $userDto Contiene los datos de un nuevo usuario
      * @return User
      */
-    private function createUser(UserDto $userDto)
+    private function createUser(RegisterUserDto $userDto)
     {
         $passwordHashed = Hash::make($userDto->password);
         $user = new User([

@@ -34,7 +34,7 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            '_method' => 'required',
+            // '_method' => 'required',
             'title' => 'string',
             'city' => 'string',
             'locality' => 'string',

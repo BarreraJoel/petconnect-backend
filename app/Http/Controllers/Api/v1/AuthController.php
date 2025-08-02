@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Classes\Api\v1\ApiResponse;
-use App\Classes\Api\v1\Dto\UserAuthDto;
-use App\Classes\Api\v1\Dto\UserDto;
+use App\Classes\Api\v1\Dto\User\LoginUserDto;
+use App\Classes\Api\v1\Dto\User\RegisterUserDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\Auth\LoginRequest;
 use App\Http\Requests\Api\v1\Auth\RegisterRequest;
@@ -39,7 +39,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $loginRequest)
     {
-        $userAuthDto = UserAuthDto::from($loginRequest->validated());
+        $userAuthDto = LoginUserDto::from($loginRequest->validated());
 
         $user = $this->authService->login($userAuthDto);
 
@@ -64,7 +64,7 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $registerRequest)
     {
-        $userDto = UserDto::from($registerRequest->except('image'));
+        $userDto = RegisterUserDto::from($registerRequest->validated());
 
         $user = $this->authService->register($userDto);
         if (!$user) {
