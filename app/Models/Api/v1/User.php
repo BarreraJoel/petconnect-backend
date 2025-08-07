@@ -47,4 +47,9 @@ class User extends Authenticatable
             'updated_at' => 'datetime:d-m-Y H:i:s'
         ];
     }
+
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
+
 }

@@ -37,6 +37,13 @@ class PostService
         return Post::find($uuid);
     }
 
+    public function selectByUserId(string $uuid)
+    {
+        return Post::where('user_id', '=', $uuid)
+            ->orderBy('created_at', 'desc')
+            ->paginate(2);
+    }
+
     /**
      * Crea un nuevo registro de post
      * 

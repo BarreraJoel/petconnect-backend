@@ -11,6 +11,8 @@ use App\Http\Requests\Api\v1\Posts\UpdatePostRequest;
 use App\Classes\Api\v1\Dto\Posts\StorePostDto;
 use App\Classes\Api\v1\Dto\Posts\UpdatePostDto;
 use App\Http\Resources\Api\v1\Posts\PostResource;
+use App\Models\Api\v1\User;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -55,7 +57,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $dto = StorePostDto::from($request->validated());
-        
+
         $post = $this->postService->insert($dto);
 
         return ApiResponse::response(
@@ -80,6 +82,20 @@ class PostController extends Controller
             null,
             [
                 'post' => new PostResource($post)
+            ],
+        );
+    }
+
+    public function showByUserId(string $user_id)
+    {
+        $posts = $this->postService->selectByUserId($user_id);
+        Log::info($posts);
+        
+        return ApiResponse::response(
+            true,
+            null,
+            [
+                'posts' => $posts
             ],
         );
     }
