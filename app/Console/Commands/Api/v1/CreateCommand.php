@@ -28,6 +28,7 @@ class CreateCommand extends Command
     private $featureOptions = [
         'Controller' => 'controller',
         'Model' => 'model',
+        'Factory' => 'factory',
         'Form Request' => 'request',
         'Middleware' => 'middleware',
         'Event' => 'event',
@@ -65,6 +66,7 @@ class CreateCommand extends Command
             'Controller',
             'Enum',
             'Event',
+            'Factory',
             'Form Request',
             'Interface',
             'Job',
@@ -150,6 +152,7 @@ class CreateCommand extends Command
         $fullPathName = $this->createPathName($featureOption, $fileName, $apiVersion);
 
         $this->makeFeature($featureOption, $fullPathName, empty($options) ? null : $options);
+        $this->info('✅ Herramienta creada correctamente');
     }
 
     /**

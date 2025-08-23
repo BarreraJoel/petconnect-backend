@@ -17,14 +17,13 @@ class RegisterUserDto extends Data
      * @param string $password Contraseña del usuario
      * @param string $first_name Nombre del usuario
      * @param string $last_name Nombre del usuario
-     * @param string $type Tipo de usuario
      */
     public function __construct(
         public string $email,
         public string $password,
         public string $first_name,
         public string $last_name,
-        public UserTypeEnum $type,
-        public UploadedFile $image,
+        // public UserTypeEnum $type,
+        public ?UploadedFile $image,
     ) {}
 }

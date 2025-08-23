@@ -28,7 +28,11 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'image_url' => $this->image_url,
-            'type' => $this->type,
+            'facebook_url' => $this->facebook_url,
+            'instagram_url' => $this->instagram_url,
+            'linkedin_url' => $this->linkedin_url,
+            'twitter_url' => $this->twitter_url,
+            // 'type' => $this->type,
         ];
     }
 }

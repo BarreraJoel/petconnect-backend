@@ -6,7 +6,7 @@ enum PostTypeEnum: string
 {
     case ADOPTION = "adoption";
     case LOST = "lost";
-    case FOUND = "found";
+    // case FOUND = "found";
 
     public static function toArray(): array
     {

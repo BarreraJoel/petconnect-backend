@@ -41,7 +41,7 @@ class PostService
     {
         return Post::where('user_id', '=', $uuid)
             ->orderBy('created_at', 'desc')
-            ->paginate(2);
+            ->paginate(4);
     }
 
     /**

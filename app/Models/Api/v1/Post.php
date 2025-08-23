@@ -3,6 +3,7 @@
 namespace App\Models\Api\v1;
 
 use App\Enums\Api\v1\PostTypeEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
+    use HasFactory;
+    
     protected $primaryKey = 'uuid';
 
     public $incrementing = false;

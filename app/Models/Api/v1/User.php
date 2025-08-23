@@ -29,7 +29,11 @@ class User extends Authenticatable
         'email',
         'password',
         'image_url',
-        'type',
+        'facebook_url',
+        'twitter_url',
+        'linkedin_url',
+        'instagram_url',
+        // 'type',
     ];
 
     protected $hidden = [
@@ -42,7 +46,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime:d-m-Y H:i:s',
             'password' => 'hashed',
-            'type' => UserTypeEnum::class,
+            // 'type' => UserTypeEnum::class,
             'created_at' => 'datetime:d-m-Y H:i:s',
             'updated_at' => 'datetime:d-m-Y H:i:s'
         ];

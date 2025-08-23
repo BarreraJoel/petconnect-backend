@@ -88,11 +88,13 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
+        $user = $request->user();
+
         return ApiResponse::response(
             true,
             null,
             [
-                'user' => new UserResource($request->user())
+                'user' => $user ? new UserResource($user) : null
             ]
         );
     }

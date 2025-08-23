@@ -36,7 +36,7 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|confirmed|min:8|max:8',
             'first_name' => 'required|alpha|min:3',
             'last_name' => 'required|alpha|min:3',
-            'type' => ['required', Rule::in(UserTypeEnum::cases())],
+            // 'type' => ['required', Rule::in(UserTypeEnum::cases())],
             'image' => 'nullable|image',
         ];
     }

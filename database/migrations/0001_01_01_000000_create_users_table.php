@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('first_name');
             $table->string('last_name');
-            $table->enum('type', UserTypeEnum::toArray());
+            // $table->enum('type', UserTypeEnum::toArray());
             $table->string('image_url')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
