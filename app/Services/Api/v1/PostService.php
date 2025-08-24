@@ -5,6 +5,7 @@ namespace App\Services\Api\v1;
 use App\Classes\Api\v1\Dto\Posts\StorePostDto;
 use App\Classes\Api\v1\Dto\Posts\UpdatePostDto;
 use App\Models\Api\v1\Post;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -27,6 +28,22 @@ class PostService
             ->paginate(4);
     }
 
+    public function createSlug(string $text)
+    {
+        $slug = Str::slug($text);
+        $slugFounded = Post::where('slug', $slug)->pluck('slug')->first();
+        $slugCreated = "";
+
+        if ($slugFounded) {
+            $lastSlug = Post::orderBy('slug', 'desc')->whereLike('slug', "%$slug%")->pluck('slug')->first();
+            $arraySlug = explode('-', $lastSlug);
+            $lastNumber = $arraySlug[count($arraySlug) - 1];
+            $slugCreated = "$slug-" . $lastNumber + 1;
+        }
+
+        return $slugCreated;
+    }
+
     /**
      * Obtiene un post según el uuid
      * @param string $uuid uuid del post
@@ -39,7 +56,7 @@ class PostService
 
     public function selectByUserId(string $uuid)
     {
-        return Post::where('user_id', '=', $uuid)
+        return Post::where('user_uuid', '=', $uuid)
             ->orderBy('created_at', 'desc')
             ->paginate(4);
     }

@@ -38,7 +38,7 @@ class StorePostRequest extends FormRequest
             'city' => 'required|string',
             'locality' => 'required|string',
             'description' => 'required|string',
-            'user_id' => 'required|string|exists:users,uuid',
+            'user_uuid' => 'required|string|exists:users,uuid',
             'type' => ['required', Rule::in(PostTypeEnum::cases())],
             'images' => 'nullable|array|min:1|max:5',
             'images.*' => 'image',

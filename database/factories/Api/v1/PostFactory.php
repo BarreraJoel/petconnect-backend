@@ -30,9 +30,10 @@ class PostFactory extends Factory
             'title' => $this->faker->words(2, true),
             'city' => $this->faker->city(),
             'locality' => $this->faker->city(),
+            'slug' => $this->faker->slug(),
             'description' => $this->faker->realText(100),
             'is_approved' => $this->faker->boolean(),
-            'user_id' => $this->faker->randomElement($userUuidArray),
+            'user_uuid' => $this->faker->randomElement($userUuidArray),
         ];
     }
 }

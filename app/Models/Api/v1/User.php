@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<\Database\Factories\Api\v1\UserFactory> */
     use HasFactory, Notifiable;
 
     protected $primaryKey = 'uuid';
@@ -24,8 +24,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'uuid',
-        'first_name',
-        'last_name',
+        'username',
         'email',
         'password',
         'image_url',
@@ -33,7 +32,6 @@ class User extends Authenticatable
         'twitter_url',
         'linkedin_url',
         'instagram_url',
-        // 'type',
     ];
 
     protected $hidden = [
@@ -46,14 +44,20 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime:d-m-Y H:i:s',
             'password' => 'hashed',
-            // 'type' => UserTypeEnum::class,
             'created_at' => 'datetime:d-m-Y H:i:s',
             'updated_at' => 'datetime:d-m-Y H:i:s'
         ];
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('uuid', $value)
+            ->orWhere('username', $value)
+            ->firstOrFail();
+    }
 }

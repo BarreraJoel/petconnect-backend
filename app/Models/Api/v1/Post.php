@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    
+
     protected $primaryKey = 'uuid';
 
     public $incrementing = false;
@@ -21,14 +21,15 @@ class Post extends Model
 
     protected $fillable = [
         'uuid',
+        'type',
         'title',
         'city',
         'locality',
         'description',
+        'slug',
         'images_url',
-        'user_id',
         'is_approved',
-        'type',
+        'user_uuid',
     ];
 
 
@@ -42,4 +43,10 @@ class Post extends Model
             // 'updated_at' => 'datetime:d-m-Y H:i:s'
         ];
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+    
 }

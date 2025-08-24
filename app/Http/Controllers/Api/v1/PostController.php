@@ -57,14 +57,15 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $dto = StorePostDto::from($request->validated());
-
+        $slug = $this->postService->createSlug($request->input('title'));
+        $dto->slug = $slug;
         $post = $this->postService->insert($dto);
 
         return ApiResponse::response(
             true,
             null,
             [
-                'post' => new PostResource($post)
+                // 'post' => new PostResource($post)
             ],
             Response::HTTP_CREATED
         );
@@ -86,11 +87,11 @@ class PostController extends Controller
         );
     }
 
-    public function showByUserId(string $user_id)
+    public function showByUserId(string $user_uuid)
     {
-        $posts = $this->postService->selectByUserId($user_id);
+        $posts = $this->postService->selectByUserId($user_uuid);
         Log::info($posts);
-        
+
         return ApiResponse::response(
             true,
             null,

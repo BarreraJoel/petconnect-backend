@@ -21,7 +21,7 @@ return new class extends Migration
             $table->json('images_url')->nullable();
             $table->string('description');
             $table->boolean('is_approved')->default(false);
-            $table->foreignUuid('user_id');
+            $table->foreignUuid('user_uuid')->constrained('users', 'uuid');
             $table->timestamps();
         });
     }
