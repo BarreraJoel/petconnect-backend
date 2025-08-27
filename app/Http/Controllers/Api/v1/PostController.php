@@ -12,7 +12,10 @@ use App\Classes\Api\v1\Dto\Posts\StorePostDto;
 use App\Classes\Api\v1\Dto\Posts\UpdatePostDto;
 use App\Http\Resources\Api\v1\Posts\PostResource;
 use App\Models\Api\v1\User;
+use Illuminate\Auth\Access\Response as AccessResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -109,6 +112,10 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        if (!Gate::authorize('post.update', [$post])) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
         $dto = UpdatePostDto::from($request->validated());
         $postUpdated = $this->postService->update($dto, $post);
 
@@ -129,8 +136,16 @@ class PostController extends Controller
      * @param \App\Models\Api\v1\Post $post Post a eliminar
      * @return mixed|\Illuminate\Http\JsonResponse
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request, Post $post)
     {
+        if (!Gate::authorize('post.destroy', [$request->user(), $post])) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
+        // if ($request->user()->cannot('destroy', $post)) {
+        //     abort(404);
+        // }
+
         $this->postService->delete($post);
 
         return ApiResponse::response(

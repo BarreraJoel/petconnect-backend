@@ -9,6 +9,8 @@ use App\Http\Requests\Api\v1\User\UpdateUserRequest;
 use App\Http\Resources\Api\v1\Users\UserResource;
 use App\Models\Api\v1\User;
 use App\Services\Api\v1\UserService;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -25,6 +27,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        // Agregar mini user resouce para mostrar menos info o denegar acceso (a chequear)
+
         $users = User::all();
 
         return ApiResponse::response(
@@ -43,6 +47,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        // Agregar mini user resouce para mostrar menos info o denegar acceso
+
         return ApiResponse::response(
             true,
             null,
@@ -60,7 +66,10 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        // dd($request->all());
+        if (!Gate::authorize('user.update', [$request->user(), $user])) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
         $dto = UpdateUserDto::from($request->validated());
         $userUpdated = $this->userService->update($dto, $user);
 
