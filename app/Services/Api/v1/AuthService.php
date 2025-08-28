@@ -40,8 +40,11 @@ class AuthService
         $user = $this->createUser($dto);
         if ($dto->image) {
             $imageUrl = $this->uploadImage($dto->image, $user->uuid, "/users/images/$user->uuid");
-            $user->image_url = $imageUrl;
+        } else {
+            $number = random_int(1, 4);
+            $imageUrl = "assets/img/default/avatar/avatar_$number.png";
         }
+        $user->image_url = $imageUrl;
 
         $user->save();
         return $user;

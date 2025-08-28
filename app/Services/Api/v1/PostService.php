@@ -7,6 +7,7 @@ use App\Classes\Api\v1\Dto\Posts\UpdatePostDto;
 use App\Models\Api\v1\Post;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use function PHPUnit\Framework\isNumeric;
 
 /**
  * Clase que contiene funciones necesarias para gestionar posts
@@ -26,22 +27,6 @@ class PostService
     {
         return Post::orderBy('created_at', 'desc')
             ->paginate(4);
-    }
-
-    public function createSlug(string $text)
-    {
-        $slug = Str::slug($text);
-        $slugFounded = Post::where('slug', $slug)->pluck('slug')->first();
-        $slugCreated = "";
-
-        if ($slugFounded) {
-            $lastSlug = Post::orderBy('slug', 'desc')->whereLike('slug', "%$slug%")->pluck('slug')->first();
-            $arraySlug = explode('-', $lastSlug);
-            $lastNumber = $arraySlug[count($arraySlug) - 1];
-            $slugCreated = "$slug-" . $lastNumber + 1;
-        }
-
-        return $slugCreated;
     }
 
     /**
@@ -115,6 +100,33 @@ class PostService
 
         return $post;
     }
+
+    /**
+     * Crea un slug para url amigable
+     * @param string $text El texto en el que se basará el slug
+     * @return string El slug generado
+     */
+    public function createSlug(string $text)
+    {
+        $slug = Str::slug($text);
+        $slugFounded = Post::where('slug', $slug)->pluck('slug')->first();
+        $slugCreated = "";
+
+        if ($slugFounded) {
+            $lastSlug = Post::orderBy('slug', 'desc')->whereLike('slug', "%$slug-%")->pluck('slug')->first();
+            if ($lastSlug) {
+                $arraySlug = explode('-', $lastSlug);
+                $lastString = $arraySlug[count($arraySlug) - 1];
+                $slugCreated = is_numeric($lastString) ? "$slug-" . $lastString + 1 : "$slug-1";
+                return $slugCreated;
+            } else {
+                return "$slug-1";
+            }
+        }
+
+        return Str::slug($text);
+    }
+
 
     /**
      * Actualiza un post

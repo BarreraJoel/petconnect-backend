@@ -26,10 +26,14 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $number = random_int(1, 4);
+        $imageUrl = "assets/img/default/avatar/avatar_$number.png";
+        
         return [
             'uuid' => fake()->unique()->uuid(),
             'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
+            'image_url' => $imageUrl,
             'password' => Hash::make('12345678'),
             // 'email_verified_at' => now(),
             // 'password' => static::$password ??= Hash::make('password'),
@@ -42,7 +46,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
